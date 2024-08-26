@@ -1,6 +1,6 @@
 # HLA-association-studies
 
-HLA polymorphisms are very different from the rest of the genome. Unlike the biallelic variants (SNPs) that are common throughout most of the genome, the majority of HLA variants are multiallelic and involve changes at multiple base pairs. This means that for each HLA gene, there are numerous possible alleles, not just two, and these alleles involve sequence changes at multiple base pairs.
+HLA polymorphisms are very different from the rest of the genome. Unlike the biallelic variants (SNPs) that are common throughout most of the genome, the majority of HLA variants are multiallelic and involve changes at multiple base pairs. This means that for each HLA gene, there are numerous possible alleles involving sequence changes at multiple base pairs.
 
 In other words, in the HLA field, the term "allele" refers to the specific combination of point mutations, insertions, and deletions present in a single phased sequence of a given gene. As a result, each allele can encompass multiple variant positions when compared to a reference sequence. Due to this complexity, HLA results are not typically defined by individual SNPs.
 
