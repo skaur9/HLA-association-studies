@@ -14,4 +14,4 @@ You can find more information about HLA alleles here:
 https://www.ebi.ac.uk/ipd/imgt/hla/
 
 
-This repository provides examples of association studies using 2 and 4 digit HLA alleles as well as amino-acid-polymorphisms
+This repository provides examples of association studies using 2 and 4 digit HLA alleles as well as amino-acid-polymorphisms derived after HLA imputation using SNP2HLA
