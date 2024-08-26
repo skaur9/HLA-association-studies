@@ -12,3 +12,6 @@ This is why we also look at the amino acid polymorphisms (that is another form o
 
 You can find more information about HLA alleles here:
 https://www.ebi.ac.uk/ipd/imgt/hla/
+
+
+This repository provides examples of association studies using 2 and 4 digit HLA alleles as well as amino-acid-polymorphisms
