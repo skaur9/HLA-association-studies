@@ -1,4 +1,4 @@
-## Example: Association Testing with Imputed Alleles
+## Association Testing with Imputed Alleles
 
 ```bash
 plink --dosage hla_4digit.dosage.gz format=1 \
