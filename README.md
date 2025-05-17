@@ -11,7 +11,24 @@ To identify these multiallelic variations, HLA alleles are categorized using two
 This is why we also look at the amino acid polymorphisms (that is another form of HLA allele nomenclature) which offers higher resolution. By examining these specific amino acid changes, we can better understand which variations may be driving associations with specific traits or diseases.
 
 You can find more information about HLA alleles here:
-https://www.ebi.ac.uk/ipd/imgt/hla/
+- https://www.ebi.ac.uk/ipd/imgt/hla/
 
 
 This repository provides examples of association studies using 2 and 4 digit HLA alleles as well as amino-acid-polymorphisms derived after HLA imputation using SNP2HLA
+
+SNP2HLA is a widely used tool that imputes classical HLA alleles (2-digit and 4-digit resolution), amino acid polymorphisms, and intragenic SNPs from SNP genotype data.
+
+## Notes
+
+- Use high-quality genotype data (QC is crucial).
+- Ensure SNPs in your dataset overlap well with the reference panel.
+- Beagle 3 is required for SNP2HLA and must be in the working directory or specified via `-bgl`.
+
+## References
+
+- Jia X, et al. (2013). "Imputing amino acid polymorphisms in human leukocyte antigens." *PLoS ONE*.
+- SNP2HLA: https://github.com/immunogenomics/snp2hla
+
+---
+
+For questions or contributions, feel free to open an issue or submit a pull request!
