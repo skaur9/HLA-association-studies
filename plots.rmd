@@ -1,8 +1,7 @@
 ---
 title: "Visualization of HLA association studies"
 author: "Simranjeet Kaur"
-format: html
-editor: visual
+output: html_document
 ---
 
 ```{r setup}
