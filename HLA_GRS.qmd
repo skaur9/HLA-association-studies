@@ -1,3 +1,16 @@
+---
+title: "Module-Based Genetic Risk Score Calculation"
+author: "Simranjeet Kaur"
+format: html
+editor: visual
+---
+
+```{r setup}
+library(pROC)
+library(caret)
+library(ggplot2)
+```
+
 # Module-Based Genetic Risk Score Calculation
 
 To calculate module-based genetic risk scores (GRS) using HLA alleles:
@@ -72,4 +85,33 @@ grs_ext <- merge(grs_ext, pheno, by="FID")
 model_ext <- glm(case_control ~ score + covariate1 + covariate2,
                  data=grs_ext, family="binomial")
 summary(model_ext)
+```
+
+### Cross-Validation for PRS Models:
+```{r}
+set.seed(42)
+folds <- createFolds(prs_data$case_control, k=5, list=TRUE)
+cv_results <- lapply(folds, function(test_idx) {
+  train <- prs_data[-test_idx, ]
+  test <- prs_data[test_idx, ]
+  model_cv <- glm(case_control ~ classI_score + classII_score + covariate1 + covariate2,
+                  data=train, family="binomial")
+  pred <- predict(model_cv, newdata=test, type="response")
+  roc_auc <- pROC::roc(test$case_control, pred)$auc
+  return(roc_auc)
+})
+mean(unlist(cv_results))  # Average AUC across folds
+```
+
+### Visualization of PRS Distributions and ROC Curves:
+```{r}
+# Distribution
+ggplot(prs_data, aes(x=classI_score, fill=as.factor(case_control))) +
+  geom_density(alpha=0.5) +
+  labs(title="Class I Module PRS Distribution", x="PRS Score", fill="Case")
+
+# ROC Curve
+p <- predict(model, type="response")
+roc_obj <- roc(prs_data$case_control, p)
+plot(roc_obj, col="blue", main=paste("AUC:", round(auc(roc_obj), 3)))
 ```
