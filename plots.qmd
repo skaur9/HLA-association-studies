@@ -1,9 +1,14 @@
-## Visualization of HLA association studies
+---
+title: "Visualization of HLA association studies"
+author: "Simranjeet Kaur"
+format: html
+editor: visual
+---
 
-
+```{r setup}
 library(qqman)
 library(pheatmap)
-
+```
 
 ### 1. Dosage Distribution
 
