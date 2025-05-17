@@ -22,7 +22,7 @@ hist(hla_A_02_01, breaks=50, main="HLA-A*02:01 Dosage Distribution",
 
 ### 2. Association Plot (Manhattan Plot)
 
-Using `qqman` in R:
+Using `qqman`:
 ```{r}
 hla_assoc <- read.table("hla_assoc.assoc.logistic", header=TRUE)
 manhattan(hla_assoc, chr="CHR", bp="BP", snp="SNP", p="P",
