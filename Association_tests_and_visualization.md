@@ -1,4 +1,12 @@
+## Example: Association Testing with Imputed Alleles
 
+```bash
+plink --dosage hla_4digit.dosage.gz format=1 \
+      --pheno phenotype.txt \
+      --logistic \
+      --covar covariates.txt \
+      --out hla_assoc
+```
 
 ## Visualization 
 
