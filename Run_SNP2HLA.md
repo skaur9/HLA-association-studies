@@ -64,12 +64,23 @@ plink --dosage mydata_hla_imputed.HLA.alleles format=1 \
       --out hla_aa_alleles
 ```
 
-## Example: Association Testing with Imputed Alleles
+## Post-Imputation Quality Control (QC)
+
+Perform standard QC checks on the imputed dosages:
+
+- **Missingness**: Exclude alleles with high missingness
+- **HWE filtering** (for controls):
 
 ```bash
-plink --dosage hla_4digit.dosage.gz format=1 \
-      --pheno phenotype.txt \
-      --logistic \
-      --covar covariates.txt \
-      --out hla_assoc
+plink --dosage mydata_hla_imputed.HLA.alleles format=1 \
+      --hardy \
+      --out hla_hwe
+```
+
+- **MAF filtering**:
+
+```bash
+plink --dosage mydata_hla_imputed.HLA.alleles format=1 \
+      --freq \
+      --out hla_freq
 ```
