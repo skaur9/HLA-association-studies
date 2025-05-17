@@ -1,0 +1,75 @@
+# Module-Based Genetic Risk Score Calculation
+
+To calculate module-based genetic risk scores (GRS) using HLA alleles:
+
+1. **Define modules**: Group HLA alleles into functional modules (e.g., by gene or known disease relevance).
+2. **Assign weights**: Based on effect sizes from prior studies or your own association results.
+3. **Calculate scores**: Sum the weighted dosages per module for each individual.
+
+## Example:
+```{r}
+# Load dosage data and phenotype
+dosages <- read.table("hla_4digit.dosage.gz", header=TRUE)
+pheno <- read.table("phenotype.txt", header=TRUE)
+
+# Define modules
+classII_module <- rowSums(dosages[, c("HLA_DRB1_03_01", "HLA_DQB1_02_01")])
+classI_module <- rowSums(dosages[, c("HLA_A_02_01", "HLA_B_08_01")])
+
+# Combine and model
+grs_data <- data.frame(FID=dosages$FID,
+                       classI_score=classI_module,
+                       classII_score=classII_module)
+grs_data <- merge(grs_data, pheno, by="FID")
+
+model <- glm(case_control ~ classI_score + classII_score + covariate1 + covariate2,
+             data=grs_data, family="binomial")
+summary(model)
+```
+
+## Including Amino Acid Residues in GRS:
+```{r}
+aa <- read.table("mydata_hla_imputed.HLA.aa", header=TRUE)
+grs_data <- merge(grs_data, aa, by="FID")
+
+# Define amino acid-based module (example: position 11 of DRB1)
+module_aa11 <- rowSums(grs_data[, grep("AA_DRB1_11", names(grs_data))])
+grs_data$classII_module_aa <- module_aa11
+
+model2 <- glm(case_control ~ classI_score + classII_module_aa + covariate1 + covariate2,
+              data=grs_data, family="binomial")
+summary(model2)
+```
+
+### PCA-Based Module Construction:
+```{r}
+all_hla <- merge(dosages, aa, by="FID")
+hla_matrix <- all_hla[, -1]  # remove FID
+pca <- prcomp(hla_matrix, scale.=TRUE)
+
+# Use first few PCs as GRS proxies
+grs_pca <- data.frame(FID=all_hla$FID,
+                      PC1=pca$x[,1], PC2=pca$x[,2], PC3=pca$x[,3])
+grs_pca <- merge(grs_pca, pheno, by="FID")
+
+model_pca <- glm(case_control ~ PC1 + PC2 + PC3 + covariate1 + covariate2,
+                 data=grs_pca, family="binomial")
+summary(model_pca)
+```
+
+### Using External Summary Statistics:
+```{r}
+# Load external effect sizes
+weights <- read.table("hla_weights.txt", header=TRUE)  # columns: SNP, BETA
+
+# Align and multiply
+common <- intersect(weights$SNP, colnames(dosages))
+score <- as.matrix(dosages[, common]) %*% weights$BETA[match(common, weights$SNP)]
+
+grs_ext <- data.frame(FID=dosages$FID, score=score)
+grs_ext <- merge(grs_ext, pheno, by="FID")
+
+model_ext <- glm(case_control ~ score + covariate1 + covariate2,
+                 data=grs_ext, family="binomial")
+summary(model_ext)
+```
